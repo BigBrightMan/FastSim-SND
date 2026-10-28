@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" width="900" height="260" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="260" fill="#ffffff"/>
+
+  <!-- Step 1: CRMC -->
+  <rect x="30" y="85" width="170" height="90" rx="10" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="115" y="125" text-anchor="middle" font-size="22" font-weight="bold" fill="#1e1b4b">CRMC</text>
+  <text x="115" y="152" text-anchor="middle" font-size="14" fill="#334155">event generator</text>
+
+  <!-- arrow 1 -->
+  <line x1="200" y1="130" x2="300" y2="130" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="250" y="118" text-anchor="middle" font-size="13" fill="#475569">.hepmc</text>
+
+  <!-- Step 2: Rivet with FastNeutrinoFluxSimulation in the middle -->
+  <rect x="305" y="30" width="290" height="200" rx="12" fill="#f8fafc" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="450" y="58" text-anchor="middle" font-size="18" font-weight="bold" fill="#334155">Rivet</text>
+  <rect x="330" y="80" width="240" height="110" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="3"/>
+  <text x="450" y="125" text-anchor="middle" font-size="19" font-weight="bold" fill="#7c2d12">Fast Neutrino Flux</text>
+  <text x="450" y="150" text-anchor="middle" font-size="19" font-weight="bold" fill="#7c2d12">Simulation</text>
+  <text x="450" y="174" text-anchor="middle" font-size="13" fill="#9a3412">(Rivet module)</text>
+
+  <!-- arrow 2 -->
+  <line x1="595" y1="130" x2="695" y2="130" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="645" y="118" text-anchor="middle" font-size="13" fill="#475569">.txt</text>
+
+  <!-- Step 3: output -->
+  <rect x="700" y="85" width="170" height="90" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="785" y="125" text-anchor="middle" font-size="20" font-weight="bold" fill="#064e3b">Neutrino flux</text>
+  <text x="785" y="152" text-anchor="middle" font-size="14" fill="#334155">events_*.txt</text>
+</svg>
