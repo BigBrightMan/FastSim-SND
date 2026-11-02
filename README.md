@@ -83,7 +83,16 @@ where `X` is the name of the module, for example `Run3_Neutrinos_Light`.
 The settings are at the end of each `.cc` file. Wrong values do not give an error, only a
 wrong flux, so check them before compiling:
 
-* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Use the (x, y) range of the SND@LHC scoring plane, for example `{0.080, 0.470, 0.155, 0.545}` for the target area in `Rivet_Run2_Histogram`, or a larger area such as `{-1.2, 1.2, -1.2, 1.2}` and cut in the next step;
+* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Choose one of these options. With Option B, apply the cut in the next step:
+
+  ```cpp
+  // Option A: SND@LHC acceptance
+  _dim = {-0.46, -0.07, 0.15, 0.54};
+
+  // Option B: Larger scoring plane
+  _dim = {-1.2, 1.2, -1.2, 1.2};
+  ```
+
 * `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angle at IP1 in µrad, for the year being simulated (table below);
 * `nevent`: number of neutrinos written after resampling (Light and Charm only). Resampling gives more events in the tails of the distributions, and the same neutrino can appear more than once. In the Charm module, `t_nevent` is the same number for ν<sub>τ</sub>.
 
@@ -91,18 +100,14 @@ Use `*_Neutrinos_Charm_weighted` for POWHEG, as advised by F. Kling. Events with
 weights cannot be resampled, so this module has no `nevent` and writes every neutrino with
 its own weight, which gives the real neutrinos with their natural probability.
 
-| Year | Crossing at IP1 | `_xing_urad_h` | `_xing_urad_v` |
-|---|---|---|---|
-| 2022 | vertical, down | `0` | `-160` |
-| 2023 | vertical, down | `0` | `-160` |
-| 2024 | vertical, up | `0` | `+160` |
-| 2025 | horizontal, 160 to 120 µrad during the fill | `±160` to `±120` | `0` |
-| 2026 | horizontal, same scheme as 2025 | `±160` to `±120` | `0` |
+| Period (pp) | Beam optics | IP1 crossing | `_xing_urad_h` | `_xing_urad_v` |
+|---|---|---|---|---|
+| 2022–2023 | Nominal | Downward vertical, −160 µrad | `0` | `-160` |
+| 2024 | Reverse polarity | Upward vertical, +160 µrad | `0` | `+160` |
+| 2025–2026 | Nominal | Horizontal, +160 → +120 µrad | `+160` | `0` |
 
-Sources: [arXiv:2603.21878](https://arxiv.org/abs/2603.21878),
-[arXiv:2602.23412](https://arxiv.org/abs/2602.23412). They do not give the sign of the
-horizontal crossing, so check it before use. The module takes one value, so for 2025 and
-2026 choose one in this range.
+In 2025–2026, the angle is reduced from +160 to +120 µrad during each fill. The module takes
+one value, so use `+160`, which covers 85% of the integrated luminosity.
 
 #### Compiling
 
