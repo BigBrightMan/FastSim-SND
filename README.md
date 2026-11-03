@@ -92,7 +92,7 @@ where `X` is the name of the module, for example `Run3_Neutrinos_Light`.
 
 The settings are defined in each `*.cc` file. Wrong values do not give an error, only a wrong flux, so check them before compiling:
 
-* `_dim`: area at z = 480 m in which neutrinos are kept, given as `{xmin, xmax, ymin, ymax}` in meters. The default values differ between modules. To use the SND@LHC acceptance, set `_dim` to `{-0.46, -0.07, 0.15, 0.54}` (x from −46 to −7 cm, y from 15 to 54 cm). Alternatively, use a larger area, e.g. `{-1.2, 1.2, -1.2, 1.2}`, and apply the SND@LHC acceptance cut to `events_*.txt` in the next step.
+* `_dim`: area at z = 480 m in which neutrinos are kept, given as `{xmin, xmax, ymin, ymax}` in meters. The default values differ between modules. To use the SND@LHC acceptance, set `_dim` to `{-0.46, -0.07, 0.15, 0.54}` (x from −46 to −7 cm, y from 15 to 54 cm). Alternatively, use a larger area, e.g. `{-1.2, 1.2, -1.2, 1.2}`, with a larger `nevent`, and cut on the x and y columns of `events_*.txt` after the run.
 
 * `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angles at IP1 in µrad for the year being simulated (see table below).
 
@@ -128,6 +128,8 @@ Other modules are compiled in the same way inside their own folders.
 
 The example below uses 1000 pp collisions at √s = 13.6 TeV with EPOS-LHC, and the Run 3
 light hadron module.
+The module settings are `_dim = {-0.46, -0.07, 0.15, 0.54}`, `_xing_urad_h = 0`,
+`_xing_urad_v = -160` (2022–2023) and `nevent = 500000`.
 
 ### Generating pp collisions with CRMC
 
@@ -185,12 +187,12 @@ The neutrinos are saved in `events_light.txt` (`events_charm.txt` and
 * event weight, in pb;
 * event number (`events_charm_weighted.txt` only).
 
-Here is the example of the first few lines shown in `event_light.txt` from the test run. 
+Here is an example of the first few lines shown in `events_light.txt` from the test run.
 
 ```
--14  -211   -0.1948    0.2483 24.8400 -4.2289e-04 5.5168e-04 1.2957e+02 2.7486e+02
- 14   211    0.2540    0.1192 14.5990 5.7059e-04 2.1518e-04 1.7028e+01 2.7486e+02
--14  -321    1.0136    0.4413 11.0990 2.1267e-03 9.2695e-04 1.6191e+02 2.7486e+02
+-14  -211   -0.2772    0.5054 16.4990 -5.8067e-04 1.0650e-03 7.3845e+01 4.8424e+01
+-14  -211   -0.1188    0.3529  6.9990 -2.3161e-04 7.6790e-04 1.1199e+01 4.8424e+01
+ 14   211   -0.4328    0.2099 10.7990 -9.2143e-04 4.4122e-04 1.8824e+01 4.8424e+01
 ```
 `Rivet.yoda` only holds the event count and the cross section.
 
