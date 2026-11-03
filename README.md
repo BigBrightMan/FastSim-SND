@@ -23,9 +23,8 @@ for further analysis.
 ## Installation
 
 Install in the order below, because CRMC needs the HepMC3 library that comes with Rivet.
-`$RIVET_DIR` and `$CRMC_DIR` are the installation folders (`INSTALL_PREFIX` of Rivet and
-`CMAKE_INSTALL_PREFIX` of CRMC), and `$FNFS_DIR` is the folder of the Fast Neutrino Flux
-Simulation. Do not forget to export them.
+`$RIVET_DIR` and `$CRMC_DIR` are the installation folders, and `$FNFS_DIR` is the folder of the Fast Neutrino Flux
+Simulation. Do not forget to `export` them to corresponding directories.
 
 > **Prerequisites:** if you work on lxplus, you can ignore the "prerequisites" sections in
 > the instructions of every program. Compilers, CMake, Boost and Python are already installed.
@@ -55,7 +54,7 @@ git clone https://github.com/KlingFelix/FastNeutrinoFluxSimulation.git $FNFS_DIR
 The modules are in `RIVET_Modules/`, with one folder per LHC setup (`Rivet_Run3_MCFiles` for
 Run 3). Each folder has one module per neutrino source:
 
-* `*_Neutrinos_Light`: neutrinos from π, K and hyperon decays. For leading order generators, for example CRMC;
+* `*_Neutrinos_Light`: neutrinos from π, K and hyperon decays. For leading order generators, for example EPOS LHC, DPMJET;
 * `*_Neutrinos_Charm`: neutrinos from charm hadron decays, normal run;
 * `*_Neutrinos_Charm_weighted`: neutrinos from charm hadron decays at next to leading order, for example POWHEG (charm production), which has events with negative weights.
 
