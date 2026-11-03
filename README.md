@@ -96,7 +96,7 @@ The settings are defined in each `*.cc` file. Wrong values do not give an error,
 
 * `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angles at IP1 in µrad for the year being simulated (see table below).
 
-* `nevent`(`*_Neutrinos_Light` and `*_Neutrinos_Charm` only): number of neutrino events in the output. In the Charm module, nevent is for ν<sub>e</sub> and ν<sub>μ</sub>, and t_nevent is for ν<sub>τ</sub>.
+* `nevent`(`*_Neutrinos_Light` and `*_Neutrinos_Charm` only): number of neutrinos in the output after resampling. In `*_Neutrinos_Charm`, `nevent` is for ν<sub>e</sub> and ν<sub>μ</sub> only, and ν<sub>τ</sub> are set separately by `t_nevent`.
 
 For POWHEG samples, use `*_Neutrinos_Charm_weighted`, as advised by F. Kling. This module has no nevent: the number of output lines depends on the number of input events. 
 
