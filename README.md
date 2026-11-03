@@ -98,7 +98,7 @@ The settings are defined in each `*.cc` file. Wrong values do not give an error,
 
 * `nevent`(`*_Neutrinos_Light` and `*_Neutrinos_Charm` only): number of neutrinos in the output after resampling. In `*_Neutrinos_Charm`, `nevent` is for ν<sub>e</sub> and ν<sub>μ</sub> only, and ν<sub>τ</sub> are set separately by `t_nevent`.
 
-For POWHEG samples, use `*_Neutrinos_Charm_weighted`, as advised by F. Kling. This module has no nevent: the number of output lines depends on the number of input events. 
+For POWHEG samples, use `*_Neutrinos_Charm_weighted`, as advised by F. Kling. This module has no `nevent`: the number of output lines depends on the number of input events. 
 
 | Period (pp) | Beam optics | IP1 crossing | `_xing_urad_h` | `_xing_urad_v` |
 |---|---|---|---|---|
@@ -113,7 +113,9 @@ one value, so use `+160`, which covers 85% of the integrated luminosity.
 
 ```bash
 source $RIVET_DIR/rivetenv.sh
+
 cd $FNFS_DIR/RIVET_Modules/Rivet_Run3_MCFiles/Run3_Neutrinos_Light
+
 rivet-build RivetRun3_Neutrinos_Light.so Run3_Neutrinos_Light.cc
 ```
 
@@ -124,14 +126,15 @@ Other modules are compiled in the same way inside their own folders.
 
 ## Running
 
-The example below uses 200k pp collisions at √s = 13.6 TeV with EPOS-LHC, and the Run 3
+The example below uses 1000 pp collisions at √s = 13.6 TeV with EPOS-LHC, and the Run 3
 light hadron module.
 
 ### Generating pp collisions with CRMC
 
 ```bash
 source $RIVET_DIR/rivetenv.sh
-$CRMC_DIR/bin/crmc -c $CRMC_DIR/etc/crmc.param -I 2212 -P -6800 -i 2212 -p 6800 -m 0 -o hepmc3 -n 200000
+
+$CRMC_DIR/bin/crmc -c $CRMC_DIR/etc/crmc.param -I 2212 -P -6800 -i 2212 -p 6800 -m 0 -o hepmc3 -n 1000
 ```
 
 where:
@@ -147,11 +150,16 @@ It is also possible to set the random seed with `-s` and the output file name wi
 The output is a file named `crmc_eposlhcr_<seed>_p_p_6800.hepmc`, with one block per event
 listing all the particles. It takes about 40 GB per 1M events.
 
+> **Running on HTCondor**
+> For large samples, you can run multiple jobs on `HTCondor`. Put the commands above in a script, assign a different random seed (`-s`) and output file name (`-f`) to each job, and submit the jobs using `condor_submit`.
+
 ### Running the simulation with Rivet
 
 ```bash
 source $RIVET_DIR/rivetenv.sh
+
 export RIVET_ANALYSIS_PATH=$FNFS_DIR/RIVET_Modules/Rivet_Run3_MCFiles/Run3_Neutrinos_Light
+
 rivet crmc_eposlhcr_<seed>_p_p_6800.hepmc -a Run3_Neutrinos_Light -o Rivet.yoda
 ```
 
@@ -161,9 +169,6 @@ where:
 * `-a` is the name of the module;
 * `-o` is the name of the Rivet output file.
 
-To test the setup quickly, add `-n 1000` to process only the first 1000 events. Output files
-are written in the current folder, so use a separate folder for each run.
-
 ### Output
 
 The neutrinos are saved in `events_light.txt` (`events_charm.txt` and
@@ -171,26 +176,25 @@ The neutrinos are saved in `events_light.txt` (`events_charm.txt` and
 
 * neutrino PDG ID (12 = ν<sub>e</sub>, 14 = ν<sub>μ</sub>, 16 = ν<sub>τ</sub>, negative = anti ν);
 * parent hadron PDG ID;
-* x and y position at z = 480 m, in m;
+* x position at z = 480 m, in m;
+* y position at z = 480 m, in m;
 * production z position, in m;
-* x and y angle, in rad;
+* x angle, in rad;
+* y angle, in rad;
 * energy, in GeV;
-* event weight, in pb.
+* event weight, in pb;
+* event number (`events_charm_weighted.txt` only).
 
-`events_charm_weighted.txt` has the event number as a 10th column. The first lines of
-`events_light.txt` from a test run with 10k pp collisions:
+Here is the example of the first few lines shown in `event_light.txt` from the test run. 
 
 ```
 -14  -211   -0.1948    0.2483 24.8400 -4.2289e-04 5.5168e-04 1.2957e+02 2.7486e+02
  14   211    0.2540    0.1192 14.5990 5.7059e-04 2.1518e-04 1.7028e+01 2.7486e+02
 -14  -321    1.0136    0.4413 11.0990 2.1267e-03 9.2695e-04 1.6191e+02 2.7486e+02
 ```
-
 `Rivet.yoda` only holds the event count and the cross section.
 
-### Running on HTCondor
-
-Large samples can be run in the same way as batch jobs: put the commands above in a script,
-give each job its own seed (`-s`) and file name (`-f`), and submit it with `condor_submit`.
+> **Running on HTCondor**
+> For large samples, you can also run multiple jobs on `HTCondor`.
 
 -- Main.ChayanitAsawatangtrakuldee - 2026-11-02
