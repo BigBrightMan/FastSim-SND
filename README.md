@@ -60,8 +60,10 @@ git clone https://github.com/KlingFelix/FastNeutrinoFluxSimulation.git $FNFS_DIR
 The modules are in `RIVET_Modules/`, with one folder per LHC setup (`Rivet_Run3_MCFiles` for
 Run 3). Each folder has one module per neutrino source:
 
-*` *_Neutrinos_Light`: neutrinos from π, K and hyperon decays. Hadrons are propagated through the beam pipe and magnets and decayed along their trajectories, with rare decay channels oversampled and corrected by weights. A fixed number of events is then drawn with replacement, with probability proportional to the weights (weighted resampling), so the output is unweighted. For leading-order generators, e.g. EPOS LHC and DPMJET-III.
+* `*_Neutrinos_Light`: neutrinos from π, K and hyperon decays. Hadrons are propagated through the beam pipe and magnets and decayed along their trajectories, with rare decay channels oversampled and corrected by weights. A fixed number of events is then drawn with replacement, with probability proportional to the weights (weighted resampling), so the output is unweighted. For leading-order generators, e.g. EPOS LHC and DPMJET-III.
+
 * `*_Neutrinos_Charm`: neutrinos from charm hadron decays. Charm hadrons decay at the interaction point, each decay channel is sampled many times, and the resampling is biased toward high neutrino energies (weight ∝ E) to populate the high-energy tail. The bias is divided out in the output weights, so the output is unweighted. For leading-order generators.
+
 * `*_Neutrinos_Charm_weighted`: same neutrino production as *_Neutrinos_Charm, but without resampling; every neutrino is written with its own weight. Designed for NLO generators such as POWHEG, where negative event weights prevent resampling.
 
 #### Rivet 4 macros
