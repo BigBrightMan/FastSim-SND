@@ -43,9 +43,9 @@ The installation also provides HepMC3, YODA and FastJet.
 
 ### CRMC
 
-CRMC (Cosmic Ray Monte Carlo) is an interface to hadronic interaction models such as EPOS LHC and SIBYLL. Here, it generates the proton-proton collisions.
+CRMC (Cosmic Ray Monte Carlo) is an interface to hadronic interaction models such as EPOS-LHC and SIBYLL. Here, it generates the proton-proton collisions.
 
-Install CRMC following the instructions on its [GitLab](https://gitlab.iap.kit.edu/AirShowerPhysics/crmc). This guide uses version 2.2.1, but the latest version is recommended. Set up the Rivet environment before running `cmake`, so that CRMC finds HepMC3. Only EPOS LHC is compiled by default. Other models are turned on at the `cmake` step, for example `-DCRMC_SIBYLL=ON`.
+Install CRMC following the instructions on its [GitLab](https://gitlab.iap.kit.edu/AirShowerPhysics/crmc). This guide uses version 2.2.1, but the latest version is recommended. Set up the Rivet environment before running `cmake`, so that CRMC finds HepMC3. Only EPOS-LHC is compiled by default. Other models are turned on at the `cmake` step, for example `-DCRMC_SIBYLL=ON`.
 
 ### Fast Neutrino Flux Simulation
 
@@ -60,7 +60,7 @@ git clone https://github.com/KlingFelix/FastNeutrinoFluxSimulation.git $FNFS_DIR
 The modules are in `RIVET_Modules/`, with one folder per LHC setup (`Rivet_Run3_MCFiles` for
 Run 3). Each folder has one module per neutrino source:
 
-* `*_Neutrinos_Light`: neutrinos from π, K and hyperon decays. Hadrons are propagated through the beam pipe and magnets and decayed along their trajectories, with rare decay channels oversampled and corrected by weights. A fixed number of events is then drawn with replacement, with probability proportional to the weights (weighted resampling), so the output is unweighted. For leading-order generators, e.g. EPOS LHC and DPMJET-III.
+* `*_Neutrinos_Light`: neutrinos from π, K and hyperon decays. Hadrons are propagated through the beam pipe and magnets and decayed along their trajectories, with rare decay channels oversampled and corrected by weights. A fixed number of events is then drawn with replacement, with probability proportional to the weights (weighted resampling), so the output is unweighted. For leading-order generators, e.g. EPOS-LHC and DPMJET-III.
 
 * `*_Neutrinos_Charm`: neutrinos from charm hadron decays. Charm hadrons decay at the interaction point, each decay channel is sampled many times, and the resampling is biased toward high neutrino energies (weight ∝ E) to populate the high-energy tail. The bias is divided out in the output weights, so the output is unweighted. For leading-order generators.
 
@@ -90,18 +90,15 @@ where `X` is the name of the module, for example `Run3_Neutrinos_Light`.
 
 #### Settings
 
-The settings are at the end of each `*.cc` file. Wrong values do not give an error, only a
-wrong flux, so check them before compiling:
+The settings are defined in each `*.cc` file. Wrong values do not give an error, only a wrong flux, so check them before compiling:
 
-* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Use the SND@LHC scoring plane, x from −46 to −7 cm and y from 15 to 54 cm, which is `{-0.46, -0.07, 0.15, 0.54}` or a larger area (for example `{-1.2, 1.2, -1.2, 1.2}`) and then apply the detector cut on `events_*.txt` in the next step;
+* `_dim`: area at z = 480 m in which neutrinos are kept, given as `{xmin, xmax, ymin, ymax}` in meters. The default values differ between modules. To use the SND@LHC acceptance, set `_dim` to `{-0.46, -0.07, 0.15, 0.54}` (x from −46 to −7 cm, y from 15 to 54 cm). Alternatively, use a larger area, e.g. `{-1.2, 1.2, -1.2, 1.2}`, and apply the SND@LHC acceptance cut to `events_*.txt` in the next step.
 
-* `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angle at IP1 in µrad, for the year being simulated (table below);
+* `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angles at IP1 in µrad for the year being simulated (see table below).
 
-* `nevent`: number of neutrinos written after resampling (Light and Charm only). Resampling gives more events in the tails of the distributions, and the same neutrino can appear more than once. In the Charm module, `t_nevent` is the same number for ν<sub>τ</sub>.
+* `nevent`(`*_Neutrinos_Light` and `*_Neutrinos_Charm` only): number of neutrino events in the output. In the Charm module, nevent is for ν<sub>e</sub> and ν<sub>μ</sub>, and t_nevent is for ν<sub>τ</sub>.
 
-Use `*_Neutrinos_Charm_weighted` for POWHEG, as advised by F. Kling. Events with negative
-weights cannot be resampled, so this module has no `nevent` and writes every neutrino with
-its own weight, which gives the real neutrinos with their natural probability.
+For POWHEG samples, use `*_Neutrinos_Charm_weighted`, as advised by F. Kling. This module has no nevent: the number of output lines depends on the number of input events. 
 
 | Period (pp) | Beam optics | IP1 crossing | `_xing_urad_h` | `_xing_urad_v` |
 |---|---|---|---|---|
@@ -127,7 +124,7 @@ Other modules are compiled in the same way inside their own folders.
 
 ## Running
 
-The example below uses 200k pp collisions at √s = 13.6 TeV with EPOS LHC, and the Run 3
+The example below uses 200k pp collisions at √s = 13.6 TeV with EPOS-LHC, and the Run 3
 light hadron module.
 
 ### Generating pp collisions with CRMC
@@ -141,7 +138,7 @@ where:
 
 * `-c` is the CRMC parameter file. Without it, CRMC looks for `crmc.param` in the current folder;
 * `-i`, `-p` and `-I`, `-P` are the id and momentum in GeV of the two beams;
-* `-m` is the model: `0` EPOS LHC, `6` SIBYLL, `8` PHOJET, `12` DPMJET-III;
+* `-m` is the model: `0` EPOS-LHC, `6` SIBYLL, `8` PHOJET, `12` DPMJET-III;
 * `-o` is the output format;
 * `-n` is the number of events.
 
