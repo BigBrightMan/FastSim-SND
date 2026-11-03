@@ -64,7 +64,7 @@ Run 3). Each folder has one module per neutrino source:
 
 * `*_Neutrinos_Charm`: neutrinos from charm hadron decays. Charm hadrons decay at the interaction point, each decay channel is sampled many times, and the resampling is biased toward high neutrino energies (weight ∝ E) to populate the high-energy tail. The bias is divided out in the output weights, so the output is unweighted. For leading-order generators.
 
-* `*_Neutrinos_Charm_weighted`: same neutrino production as *_Neutrinos_Charm, but without resampling; every neutrino is written with its own weight. Designed for NLO generators such as POWHEG, where negative event weights prevent resampling.
+* `*_Neutrinos_Charm_weighted`: same neutrino production as `*_Neutrinos_Charm`, but without resampling; every neutrino is written with its own weight. Designed for NLO generators such as POWHEG, where negative event weights prevent resampling.
 
 #### Rivet 4 macros
 
