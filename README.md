@@ -66,10 +66,13 @@ Run 3). Each folder has one module per neutrino source:
 
 * `*_Neutrinos_Charm_weighted`: same neutrino production as `*_Neutrinos_Charm`, but without resampling; every neutrino is written with its own weight. Designed for NLO generators such as POWHEG, where negative event weights prevent resampling.
 
+
+> **Note on random numbers.**  The Rivet modules seed `rand()` automatically from the system time (1-second resolution), so no manual seed setting is needed.
+
 #### Rivet 4 macros
 
 The FastNeutrinoFluxSimulation modules were originally written for Rivet 3. If you use Rivet 4,
-replace the following macros in the `.cc` files before compiling:
+replace the following macros in each `*.cc` file before compiling:
 
 ```cpp
 DEFAULT_RIVET_ANALYSIS_CTOR(X);
@@ -87,11 +90,13 @@ where `X` is the name of the module, for example `Run3_Neutrinos_Light`.
 
 #### Settings
 
-The settings are at the end of each `.cc` file. Wrong values do not give an error, only a
+The settings are at the end of each `*.cc` file. Wrong values do not give an error, only a
 wrong flux, so check them before compiling:
 
-* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Use the SND@LHC scoring plane, x from −80 to 20 cm and y from −20 to 80 cm, which is `{-0.80, 0.20, -0.20, 0.80}`;
+* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Use the SND@LHC scoring plane, x from −46 to −7 cm and y from 15 to 54 cm, which is `{-0.46, -0.07, 0.15, 0.54}` or a larger area (for example `{-1.2, 1.2, -1.2, 1.2}`) and then apply the detector cut on `events_*.txt` in the next step;
+
 * `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angle at IP1 in µrad, for the year being simulated (table below);
+
 * `nevent`: number of neutrinos written after resampling (Light and Charm only). Resampling gives more events in the tails of the distributions, and the same neutrino can appear more than once. In the Charm module, `t_nevent` is the same number for ν<sub>τ</sub>.
 
 Use `*_Neutrinos_Charm_weighted` for POWHEG, as advised by F. Kling. Events with negative
