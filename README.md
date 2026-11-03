@@ -1,4 +1,4 @@
-# Neutrino event with FastSim tool by F. Kling
+# Neutrino Flux with FastSim by F. Kling
 
 ## Introduction
 
