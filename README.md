@@ -31,6 +31,8 @@ Simulation. Do not forget to `export` them to corresponding directories.
 
 ### Rivet
 
+Rivet is a toolkit for analysing Monte Carlo collision events. Here, it runs the Fast Neutrino Flux Simulation modules on the events from CRMC.
+
 Install Rivet following the instructions on its [website](https://heprivet.org/tutorials/installation/). This guide uses version 4.1.4, but the latest version is recommended. After installation, set up the environment in every new terminal before using Rivet or CRMC:
 
 ```bash
@@ -41,9 +43,13 @@ The installation also provides HepMC3, YODA and FastJet.
 
 ### CRMC
 
+CRMC (Cosmic Ray Monte Carlo) is an interface to hadronic interaction models such as EPOS LHC and SIBYLL. Here, it generates the proton-proton collisions.
+
 Install CRMC following the instructions on its [GitLab](https://gitlab.iap.kit.edu/AirShowerPhysics/crmc). This guide uses version 2.2.1, but the latest version is recommended. Set up the Rivet environment before running `cmake`, so that CRMC finds HepMC3. Only EPOS LHC is compiled by default. Other models are turned on at the `cmake` step, for example `-DCRMC_SIBYLL=ON`.
 
 ### Fast Neutrino Flux Simulation
+
+The Fast Neutrino Flux Simulation is a set of Rivet modules that produce the neutrinos from the hadrons in each collision event and keep those crossing the scoring plane.
 
 Download the code from its [GitHub](https://github.com/KlingFelix/FastNeutrinoFluxSimulation):
 
@@ -54,9 +60,9 @@ git clone https://github.com/KlingFelix/FastNeutrinoFluxSimulation.git $FNFS_DIR
 The modules are in `RIVET_Modules/`, with one folder per LHC setup (`Rivet_Run3_MCFiles` for
 Run 3). Each folder has one module per neutrino source:
 
-* `*_Neutrinos_Light`: neutrinos from π, K and hyperon decays. For leading order generators, for example EPOS LHC, DPMJET;
-* `*_Neutrinos_Charm`: neutrinos from charm hadron decays, normal run;
-* `*_Neutrinos_Charm_weighted`: neutrinos from charm hadron decays at next to leading order, for example POWHEG (charm production), which has events with negative weights.
+*` *_Neutrinos_Light`: neutrinos from π, K and hyperon decays. Hadrons are propagated through the beam pipe and magnets and decayed along their trajectories, with rare decay channels oversampled and corrected by weights. A fixed number of events is then drawn with replacement, with probability proportional to the weights (weighted resampling), so the output is unweighted. For leading-order generators, e.g. EPOS LHC and DPMJET-III.
+* `*_Neutrinos_Charm`: neutrinos from charm hadron decays. Charm hadrons decay at the interaction point, each decay channel is sampled many times, and the resampling is biased toward high neutrino energies (weight ∝ E) to populate the high-energy tail. The bias is divided out in the output weights, so the output is unweighted. For leading-order generators.
+* `*_Neutrinos_Charm_weighted`: same neutrino production as *_Neutrinos_Charm, but without resampling; every neutrino is written with its own weight. Designed for NLO generators such as POWHEG, where negative event weights prevent resampling.
 
 #### Rivet 4 macros
 
@@ -128,7 +134,7 @@ where:
 
 * `-c` is the CRMC parameter file. Without it, CRMC looks for `crmc.param` in the current folder;
 * `-i`, `-p` and `-I`, `-P` are the id and momentum in GeV of the two beams;
-* `-m` is the model: `0` EPOS LHC, `6` SIBYLL, `8` PHOJET, `12` DPMJET;
+* `-m` is the model: `0` EPOS LHC, `6` SIBYLL, `8` PHOJET, `12` DPMJET-III;
 * `-o` is the output format;
 * `-n` is the number of events.
 
