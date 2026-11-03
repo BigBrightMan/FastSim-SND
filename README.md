@@ -83,16 +83,7 @@ where `X` is the name of the module, for example `Run3_Neutrinos_Light`.
 The settings are at the end of each `.cc` file. Wrong values do not give an error, only a
 wrong flux, so check them before compiling:
 
-* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Choose one of these options. With Option B, apply the cut in the next step:
-
-  ```cpp
-  // Option A: SND@LHC acceptance
-  _dim = {-0.46, -0.07, 0.15, 0.54};
-
-  // Option B: Larger scoring plane
-  _dim = {-1.2, 1.2, -1.2, 1.2};
-  ```
-
+* `_dim`: area of the plane at z = 480 m where neutrinos are kept, `{xmin, xmax, ymin, ymax}` in m. Use the SND@LHC scoring plane, x from −80 to 20 cm and y from −20 to 80 cm, which is `{-0.80, 0.20, -0.20, 0.80}`;
 * `_xing_urad_h`, `_xing_urad_v`: horizontal and vertical crossing angle at IP1 in µrad, for the year being simulated (table below);
 * `nevent`: number of neutrinos written after resampling (Light and Charm only). Resampling gives more events in the tails of the distributions, and the same neutrino can appear more than once. In the Charm module, `t_nevent` is the same number for ν<sub>τ</sub>.
 
@@ -131,11 +122,12 @@ light hadron module.
 
 ```bash
 source $RIVET_DIR/rivetenv.sh
-$CRMC_DIR/bin/crmc -I 2212 -P -6800 -i 2212 -p 6800 -m 0 -o hepmc3 -n 200000
+$CRMC_DIR/bin/crmc -c $CRMC_DIR/etc/crmc.param -I 2212 -P -6800 -i 2212 -p 6800 -m 0 -o hepmc3 -n 200000
 ```
 
 where:
 
+* `-c` is the CRMC parameter file. Without it, CRMC looks for `crmc.param` in the current folder;
 * `-i`, `-p` and `-I`, `-P` are the id and momentum in GeV of the two beams;
 * `-m` is the model: `0` EPOS LHC, `6` SIBYLL, `8` PHOJET, `12` DPMJET;
 * `-o` is the output format;
